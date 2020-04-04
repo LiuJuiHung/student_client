@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>任務指引</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+    <link rel="stylesheet" href="{% static 'image/' %}"/>
+    <link rel="stylesheet" href="{% static 'course/' %}"/>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="sweetalert2.all.min.js"></script>
+    <!-- Optional: include a polyfill for ES6 Promises for IE11 -->
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+    <script src="sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="sweetalert2.min.css">
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+
+    <!-- Swiper -->
+    <link rel="stylesheet" href="{% static 'css/swiper.min.css' %}"/>
+
+</head>
+
+<body>
+
+{# 互動視窗(Modal), 填寫組別資料 #}
+<script>
+    Swal.mixin({
+        input: 'text',
+        confirmButtonText: 'Next &rarr;',
+        showCancelButton: false,
+        progressSteps: ['1', '2', '3']
+    }).queue([
+        {
+            title: 'Enter your group number',
+            text: '歡迎來到4X網頁特訓班, 請輸入您的組別'
+        },
+        {
+            title: 'Enter your name',
+            text: '請輸入您的姓名'
+        },
+        {
+            title: 'Say Hi',
+            text: 'Hello'
+        }
+    ]).then((result) => {
+        if (result.value) {
+            const answers = JSON.stringify(result.value)
+            Swal.fire({
+                icon: 'success',
+                title: '4X 感謝您!',
+                html: `Your answers:<pre><code>${answers}</code></pre>`,
+                confirmButtonText: 'Perfect!',
+            })
+            $.ajax({
+                type: 'POST',
+                url: 'http://127.0.0.1:8080/group_information/',
+                data: answers,
+
+            });
+        }
+    })
+
+</script>
+{# ===================== Main Page ===================== #}
+{# ********************* Navbar ********************* #}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+            aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">任務引導<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="group_information">團員資訊</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+</nav>
+
+{# ********************* 任務引導 content ********************* #}
+<div class="page-container mt-3">
+    <div class="row justify-content-md-center">
+        {# ********************* swiper(task content) ********************* #}
+        <div class="col-8">
+            <script src="{% static 'css/swiper.min.js' %}"></script>
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="slide-inner">
+                            <h1 class="display-1"><span id="task1_content" style="color: white">Task 1</span></h1>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="slide-inner"
+                             style="background-image:url(https://pp.userapi.com/c836139/v836139003/63ce1/QThPx7qPzvU.jpg)"></div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="slide-inner">
+                            <h1 class="display-1"><span style="color: white; ">Task 2</span></h1>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="slide-inner"
+                             style="background-image:url(https://pp.userapi.com/c412624/v412624691/4136/_da_uAA6ha8.jpg)"></div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="slide-inner"
+                             style="background-image:url(https://pp.userapi.com/c637331/v637331691/48f5f/spHnV42iYVw.jpg)"></div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="slide-inner"
+                             style="background-image:url(https://pp.userapi.com/c837139/v837139407/67f52/fFqjq4U2mEk.jpg)"></div>
+                    </div>
+                </div>
+                <div class="swiper-button-next swiper-button-white"></div>
+                <div class="swiper-button-prev swiper-button-white"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+
+        {# ********************* Card (emotion) ********************* #}
+        <div class="col-4 text-center">
+            <div class="tab-content" id="nav-tabContent">
+                <div class="card">
+                    <img class="emojiImg" src="{% static 'image/qqq.png' %}">
+                    <div class="card-body">
+                        <h5 class="card-title">Group 1</h5>
+                        <p class="card-text">Emotion</p>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-lg btn-block mt-3">See GIF</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    var interleaveOffset = 0.5;
+
+    var swiperOptions = {
+        loop: true,
+        speed: 1000,
+        grabCursor: true,
+        watchSlidesProgress: true,
+        mousewheelControl: true,
+        keyboardControl: true,
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev"
+        },
+        spaceBetween: 30,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        on: {
+            progress: function () {
+                var swiper = this;
+                for (var i = 0; i < swiper.slides.length; i++) {
+                    var slideProgress = swiper.slides[i].progress;
+                    var innerOffset = swiper.width * interleaveOffset;
+                    var innerTranslate = slideProgress * innerOffset;
+                    swiper.slides[i].querySelector(".slide-inner").style.transform =
+                        "translate3d(" + innerTranslate + "px, 0, 0)";
+                }
+            },
+            touchStart: function () {
+                var swiper = this;
+                for (var i = 0; i < swiper.slides.length; i++) {
+                    swiper.slides[i].style.transition = "";
+                }
+            },
+            setTransition: function (speed) {
+                var swiper = this;
+                for (var i = 0; i < swiper.slides.length; i++) {
+                    swiper.slides[i].style.transition = speed + "ms";
+                    swiper.slides[i].querySelector(".slide-inner").style.transition =
+                        speed + "ms";
+                }
+            }
+        }
+    };
+
+    var swiper = new Swiper(".swiper-container", swiperOptions);
+</script>
+
+</body>
+
+</html>
